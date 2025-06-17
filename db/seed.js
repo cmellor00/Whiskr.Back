@@ -1,5 +1,5 @@
 import db from "#db/client";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 await db.connect();
 await seed();
