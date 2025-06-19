@@ -2,6 +2,7 @@ import express from "express";
 import db from "../db/client.js";
 import { getRecipeIngredients } from "../db/queries/recipes.js";
 import { requireAdmin } from "#middleware/requireAdmin";
+import requireUser from "../middleware/requireUser.js";
 
 const router = express.Router();
 
@@ -89,7 +90,6 @@ router.post("/", async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
-
 
 
 router.delete("/:id", requireUser, requireAdmin, async (req, res) => {
