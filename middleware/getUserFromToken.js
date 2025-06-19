@@ -1,5 +1,4 @@
 import { getUserById } from "#db/queries/users";
-// middleware/getUserFromToken.js
 import { verifyToken } from "../utils/jwt.js";
 
 export default function getUserFromToken(req, res, next) {
