@@ -1,7 +1,7 @@
 import express from "express";
 import db from "../db/client.js";
 import { getRecipeIngredients } from "../db/queries/recipes.js";
-import { requireAdmin } from "#middleware/requireAdmin";
+import requireAdmin from "../middleware/requireAdmin";
 import requireUser from "../middleware/requireUser.js";
 
 const router = express.Router();
