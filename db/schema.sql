@@ -1,10 +1,10 @@
 -- Drop tables if they exist to start fresh
-DROP TABLE IF EXISTS recipe_ingredients;
-DROP TABLE IF EXISTS pantry_ingredients;
-DROP TABLE IF EXISTS recipes;
-DROP TABLE IF EXISTS saved_recipes;
-DROP TABLE IF EXISTS ingredients;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS recipe_ingredients CASCADE;
+DROP TABLE IF EXISTS pantry_ingredients CASCADE;
+DROP TABLE IF EXISTS recipes CASCADE;
+DROP TABLE IF EXISTS saved_recipes CASCADE;
+DROP TABLE IF EXISTS ingredients CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
 -- Users table
 CREATE TABLE users (
