@@ -1,6 +1,7 @@
 import express from "express";
 import db from "../db/client.js";
 import { getRecipeIngredients } from "../db/queries/recipes.js";
+import { requireAdmin } from "#middleware/requireAdmin";
 
 const router = express.Router();
 
@@ -88,5 +89,19 @@ router.post("/", async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+
+
+router.delete("/:id", requireUser, requireAdmin, async (req, res) => {
+    try {
+        await db.query(`DELETE FROM recipes WHERE id = $1`, [req.params.id]);
+        res.status(200).json({ message: "Recipe deleted" });
+    } catch (err) {
+        console.error("Error deleting recipe:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
 
 export default router;
