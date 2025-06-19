@@ -31,12 +31,12 @@ router.get("/:id/ingredients", async (req, res) => {
 // POST /recipes
 router.post("/", async (req, res) => {
     try {
-        const { title, instructions, ingredients } = req.body;
+        const { title, description, instructions, ingredients } = req.body;
 
         // Validate body
-        if (!title || !instructions || !Array.isArray(ingredients) || ingredients.length === 0) {
+        if (!title || !description || !instructions || !Array.isArray(ingredients) || ingredients.length === 0) {
             return res.status(400).json({
-                error: "Invalid input: title, instructions, and ingredients[] required",
+                error: "Invalid input: title, description, instructions, and ingredients[] required",
             });
         }
 
@@ -47,11 +47,11 @@ router.post("/", async (req, res) => {
 
         // Insert recipe
         const insertRecipeQuery = `
-      INSERT INTO recipes (user_id, title, instructions)
-      VALUES ($1, $2, $3)
+      INSERT INTO recipes (user_id, title, description, instructions)
+      VALUES ($1, $2, $3, $4)
       RETURNING id
     `;
-        const { rows } = await db.query(insertRecipeQuery, [userId, title, instructions]);
+        const { rows } = await db.query(insertRecipeQuery, [userId, title, description, instructions]);
         const recipeId = rows[0].id;
 
         // Insert ingredients
