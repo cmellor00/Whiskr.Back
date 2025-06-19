@@ -8,7 +8,11 @@ import savedRoutes from "./routes/savedRecipes.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "https://whiskr-app.netlify.app", // or use an environment variable
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(getUserFromToken);
 
