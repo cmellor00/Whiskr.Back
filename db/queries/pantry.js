@@ -1,4 +1,4 @@
-import db from "../client.js"; // make sure this is the correct path
+import db from "../client.js";
 
 export async function getUserPantry(userId) {
     const { rows } = await db.query(`
