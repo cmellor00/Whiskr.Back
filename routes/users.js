@@ -24,7 +24,7 @@ router.post("/register", requireBody(["username", "password"]), async (req, res,
     }
 });
 
-// LOGIN
+
 router.post("/login", requireBody(["username", "password"]), async (req, res) => {
     const { username, password } = req.body;
     const user = await getUserByUsernameAndPassword(username, password);
@@ -34,7 +34,7 @@ router.post("/login", requireBody(["username", "password"]), async (req, res) =>
     res.json({ token });
 });
 
-// GET /users/me - Return logged-in user's profile
+
 router.get("/me", requireUser, async (req, res) => {
     const { id } = req.user;
     const {
@@ -44,7 +44,6 @@ router.get("/me", requireUser, async (req, res) => {
     res.json(user);
 });
 
-// GET /users/all - Admin only
 router.get("/all", requireUser, requireAdmin, async (req, res) => {
     const { rows } = await db.query("SELECT id, username, is_admin FROM users");
     res.json(rows);

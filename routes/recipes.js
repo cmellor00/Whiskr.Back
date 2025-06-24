@@ -6,11 +6,12 @@ import requireUser from "../middleware/requireUser.js";
 
 const router = express.Router();
 
-// GET /recipes
+
 router.get("/", async (req, res) => {
     try {
         const { rows } = await db.query(
-            "SELECT id, title, description, instructions FROM recipes"
+            "SELECT id, title, description, instructions, image_url FROM recipes"
+
         );
         res.json(rows);
     } catch (err) {
@@ -19,7 +20,6 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET /recipes/:id/ingredients
 router.get("/:id/ingredients", async (req, res) => {
     try {
         const ingredients = await getRecipeIngredients(req.params.id);
@@ -30,12 +30,10 @@ router.get("/:id/ingredients", async (req, res) => {
     }
 });
 
-// POST /recipes
 router.post("/", async (req, res) => {
     try {
-        const { title, description, instructions, ingredients } = req.body;
+        const { title, description, instructions, ingredients, image_url } = req.body;
 
-        // Validate body
         if (!title || !description || !instructions || !Array.isArray(ingredients) || ingredients.length === 0) {
             return res.status(400).json({
                 error: "Invalid input: title, description, instructions, and ingredients[] required",
@@ -47,16 +45,14 @@ router.post("/", async (req, res) => {
             return res.status(401).json({ error: "Unauthorized: no user ID found in token" });
         }
 
-        // Insert recipe
         const insertRecipeQuery = `
-      INSERT INTO recipes (user_id, title, description, instructions)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id
-    `;
-        const { rows } = await db.query(insertRecipeQuery, [userId, title, description, instructions]);
+             INSERT INTO recipes (user_id, title, description, instructions, image_url)
+             VALUES ($1, $2, $3, $4, $5)
+            RETURNING id
+            `;
+        const { rows } = await db.query(insertRecipeQuery, [userId, title, description, instructions, image_url]);
         const recipeId = rows[0].id;
 
-        // Insert ingredients
         for (let ing of ingredients) {
             const name = ing.name?.trim().toLowerCase();
             const quantity = ing.quantity;
