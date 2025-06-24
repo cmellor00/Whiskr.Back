@@ -8,8 +8,20 @@ import savedRoutes from "./routes/savedRecipes.js";
 
 const app = express();
 
+const allowedOrigins = [
+    "http://localhost:5173", // Vite (or whatever your local frontend uses)
+    "http://localhost:3000", // Create React App (optional)
+    "https://whiskr-app.netlify.app" // Your live frontend
+];
+
 app.use(cors({
-    origin: "https://whiskr-app.netlify.app", // or use an environment variable
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true
 }));
 
